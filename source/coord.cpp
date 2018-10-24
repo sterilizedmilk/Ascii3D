@@ -6,12 +6,12 @@
 #include "define.hpp"
 
 
-double coord3::square()
+double coord3::square() const
 {
     return x*x + y*y + z*z;
 }
 
-double coord3::abs()
+double coord3::abs() const
 {
     return sqrt(x*x + y*y + z*z);
 }
@@ -32,7 +32,7 @@ void spher_coord::spher_spin(double azi, double pol)
     }
 }
 
-coord3 spher_coord::spher_to_coord3()
+coord3 spher_coord::spher_to_coord3() const
 {
     const double cosA = cos(azimuth);
     const double sinA = sin(azimuth);

@@ -12,17 +12,16 @@
 
 using namespace std;
 
-
 /**
  * A=dir, B=vecX. C=vecY
  * k*A = P1 = P0 + x*B + y*C
  * k*A - x*B - y*C = P0
  */
-coord3 polygon::transform(coord3 dir)
+coord3 polygon::transform(coord3 dir) const
 {
     coord3 vecX = vertex[1] - vertex[0];
     coord3 vecY = vertex[2] - vertex[0];
-    
+   
     matrix3<double> mat = { vecX.x, vecY.x, dir.x,
                             vecX.y, vecY.y, dir.y, 
                             vecX.z, vecY.z, dir.z };
@@ -54,6 +53,7 @@ void make_poly(vector<polygon> &polygons, char** map, int map_x, int map_y)
                 coord adjacent = coord(x, y) + compass[2*i];
 
                 if (adjacent >= coord(0, 0) && adjacent < coord(map_x, map_y))
+                {
                     if (map[adjacent.y][adjacent.x] != '#')
                     {
                         polygons.push_back(polygon(SHP_REC, TEXTURE_WALL, texture_wall,
@@ -62,7 +62,7 @@ void make_poly(vector<polygon> &polygons, char** map, int map_x, int map_y)
                                                                           center + ver[2],
                                                                           center + ver[3]));
                     }
-
+                }
                 for(coord3 &j : ver) // spin
                 {
                     double jx = j.x;
@@ -93,18 +93,17 @@ void make_poly(vector<polygon> &polygons, char** map, int map_x, int map_y)
             default:
                 break;
             }
-
         }
 }
 
-void screen_assign(const coord3 cam_pos, spher_coord cam_dir, vector<polygon> polygons, screen scr[][SCR_LENGTH])
+void screen_assign(const coord3 &cam_pos, const spher_coord &cam_dir, const vector<polygon> &polygons, screen scr[][SCR_LENGTH])
 {
     coord3 cam = cam_dir.spher_to_coord3();
     coord3 cam_center = cam * SCR_DISTANCE;
     coord3 vecX = spher_coord(cam_dir.azimuth + PI/2, PI/2).spher_to_coord3() * SCR_HORIZONTAL / SCR_LENGTH;
     coord3 vecY = spher_coord(cam_dir.azimuth, cam_dir.polar + PI/2).spher_to_coord3() * SCR_VERTICAL / SCR_WIDTH;
 
-    for (polygon &po : polygons)
+    for (polygon po : polygons)
     {
         po -= cam_pos;
 
@@ -140,10 +139,9 @@ void screen_assign(const coord3 cam_pos, spher_coord cam_dir, vector<polygon> po
                 break;
             }
         }
-        
+
         if (!coin)
             continue;
-
 
         coordd prj[4];
         for (int i = 0; i < 4; ++i)
@@ -174,7 +172,6 @@ void screen_assign(const coord3 cam_pos, spher_coord cam_dir, vector<polygon> po
         const coord coord_max = { min(max(max(prj[0].x, prj[1].x), max(prj[2].x, prj[3].x)) +1, static_cast<double>(SCR_LENGTH)),
                                   min(max(max(prj[0].y, prj[1].y), max(prj[2].y, prj[3].y)) +1, static_cast<double>(SCR_WIDTH)) };
 
-    
         for (int y = coord_min.y; y < coord_max.y; ++y)
             for (int x = coord_min.x; x < coord_max.x; ++x)
             {

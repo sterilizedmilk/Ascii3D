@@ -17,7 +17,6 @@ static screen scr[SCR_WIDTH][SCR_LENGTH];
 static coord3 cam_pos = {1.0, 1.0, 0.7};
 static spher_coord cam_dir = {0.0, PI/2};
 
-
 bool cam_move(double dir)
 {
     double stride = 0.25;

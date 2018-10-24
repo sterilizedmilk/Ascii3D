@@ -3,6 +3,7 @@ class coord;
 class coordd;
 class coord3;
 
+// Not used at all
 template<typename T>
 class matrix2
 {
@@ -43,7 +44,7 @@ public:
 
     matrix2 inverse() const
     {
-        matrix2 inv = {d, -c, b, a};
+        matrix2 inv = {d, -c, -b, a};
         inv /= determinat();
         return inv;
     }
@@ -89,7 +90,7 @@ public:
         return *this;
     }
 
-    coord3 operator*(const coord3 &other)
+    coord3 operator*(const coord3 &other) const
     {
         coord3 coo;
         coo.x = a * other.x + b * other.y + c * other.z;

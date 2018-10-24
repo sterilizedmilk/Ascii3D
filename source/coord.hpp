@@ -2,6 +2,7 @@
 
 #include "define.hpp"
 
+// pair of int for coordinate on map
 class coord
 {
 public:
@@ -9,7 +10,7 @@ public:
     coord(int x = 0, int y = 0) : x(x), y(y) {};
     coord(double x, double y) : x(static_cast<int>(x)), y(static_cast<int>(y)) {};
 
-    coord operator+(const coord &b)
+    coord operator+(const coord &b) const
     {
         coord c;
         c.x = x + b.x;
@@ -17,7 +18,7 @@ public:
         return c;
     }
 
-    coord operator-(const coord &b)
+    coord operator-(const coord &b) const
     {
         coord c;
         c.x = x - b.x;
@@ -25,7 +26,7 @@ public:
         return c;
     }
 
-    coord operator*(const coord &b)
+    coord operator*(const coord &b) const
     {
         coord c;
         c.x = x * b.x;
@@ -40,28 +41,28 @@ public:
         return *this;
     }
 
-    bool operator>(const coord &b)
+    bool operator>(const coord &b) const
     {
         if (x > b.x && y > b.y)
             return true;
         return false;
     }
 
-    bool operator>=(const coord &b)
+    bool operator>=(const coord &b) const
     {
         if (x >= b.x && y >= b.y)
             return true;
         return false;
     }
 
-    bool operator<(const coord &b)
+    bool operator<(const coord &b) const
     {
         if (x < b.x && y < b.y)
             return true;
         return false;
     }
 
-    bool operator<=(const coord &b)
+    bool operator<=(const coord &b) const
     {
         if (x <= b.x && y <= b.y)
             return true;
@@ -71,7 +72,7 @@ public:
 
 const coord compass[8] = { {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1} };
 
-
+// pair of double for coordinate on texture
 class coordd
 {
 public:
@@ -80,7 +81,7 @@ public:
     coordd(int x, int y) : x(x), y(y) {};
     coordd(coord c) : x(c.x), y(c.y) {};
 
-    coordd operator+(const coordd &b)
+    coordd operator+(const coordd &b) const
     {
         coordd c;
         c.x = x + b.x;
@@ -88,7 +89,7 @@ public:
         return c;
     }
 
-    coordd operator-(const coordd &b)
+    coordd operator-(const coordd &b) const
     {
         coordd c;
         c.x = x - b.x;
@@ -96,7 +97,7 @@ public:
         return c;
     }
 
-    coordd operator*(const coord &b)
+    coordd operator*(const coord &b) const
     {
         coordd c;
         c.x = x * b.x;
@@ -111,7 +112,7 @@ public:
         return *this;
     }
 
-    coordd operator/(const double &b)
+    coordd operator/(const double &b) const
     {
         coordd c;
         c.x = x / b;
@@ -127,7 +128,7 @@ public:
     }
 };
 
-
+// x, y, z of double for 3 dimension
 class coord3
 {
 public:
@@ -135,16 +136,16 @@ public:
 
     coord3(double x = 0, double y = 0, double z = 0) : x(x), y(y), z(z) {};
     coord3(int x, int y, int z) : x(static_cast<double>(x)), y(static_cast<double>(y)), z(static_cast<double>(z)) {};
+    coord3(const coord3 &other) : x(other.x), y(other.y), z(other.z) {}
 
-
-    bool operator==(const coord3 &b)
+    bool operator==(const coord3 &b) const
     {
         if (x == b.x && y == b.y && z == b.z)
             return true;
         return false;
     }
 
-    bool operator!=(const coord3 &b)
+    bool operator!=(const coord3 &b) const
     {
         if (x == b.x && y == b.y && z == b.z)
             return false;
@@ -175,7 +176,7 @@ public:
         return *this;
     }
 
-    coord3 operator+(const coord3 &b)
+    coord3 operator+(const coord3 &b) const
     {
         coord3 c;
         c.x = x + b.x;
@@ -184,7 +185,7 @@ public:
         return c;
     }
 
-    coord3 operator-(const coord3 &b)
+    coord3 operator-(const coord3 &b) const
     {
         coord3 c;
         c.x = x - b.x;
@@ -193,7 +194,7 @@ public:
         return c;
     }
 
-    coord3 operator*(const double b)
+    coord3 operator*(const double b) const
     {
         coord3 c;
         c.x = x * b;
@@ -202,12 +203,12 @@ public:
         return c;
     }
 
-    double operator*(const coord3 &b) // inner
+    double operator*(const coord3 &b) const // inner
     {
         return x * b.x + y * b.y + z * b.z;
     }
 
-    coord3 operator/(const double &b)
+    coord3 operator/(const double &b) const
     {
         coord3 c;
         c.x = x / b;
@@ -216,8 +217,8 @@ public:
         return c;
     };
 
-    double square();
-    double abs();
+    double square() const;
+    double abs() const;
 };
 
 
@@ -229,5 +230,5 @@ struct spher_coord
     spher_coord(double azimuth = 0.0, double polar = PI / 2) : azimuth(azimuth), polar(polar) {};
 
     void spher_spin(double azi, double pol = 0.0);
-    coord3 spher_to_coord3();
+    coord3 spher_to_coord3() const;
 };

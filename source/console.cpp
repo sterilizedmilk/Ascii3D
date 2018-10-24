@@ -42,7 +42,7 @@ void set_font(wstring type, coord size)
     info.dwFontSize.Y = (SHORT)size.y;
     info.FontFamily = FF_DONTCARE;
     info.FontWeight = FW_NORMAL;
-    
+
     wcscpy_s(info.FaceName, type.c_str());
     SetCurrentConsoleFontEx(handle_out, FALSE, &info);
 }

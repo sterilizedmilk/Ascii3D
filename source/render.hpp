@@ -1,8 +1,7 @@
-
-//#pragma once
-
 #include "coord.hpp"
 #include "define.hpp"
+
+using namespace std;
 
 enum shape_type
 {
@@ -20,15 +19,15 @@ public:
     shape_type shape;
     texture_type type;
     char (*texture)[8+1];
-    coord3 vertex[4]; // vector?
+    coord3 vertex[4];
 
 public:
-    polygon(shape_type shp, texture_type typ, char (*tex)[8+1], coord3 ver[4])
+    polygon(shape_type shp, texture_type typ, char(*tex)[8+1], coord3 ver[4])
     {
         shape = shp;
         type = typ;
         texture = tex;
-        
+
         for (int i = 0; i < 4; ++i)
         {
             vertex[i] = ver[i];
@@ -49,7 +48,8 @@ public:
         vertex[2] = ver2;
         vertex[3] = ver3;
     }
-/* unnecessary yet
+
+    // unnecessary yet
     polygon(const polygon& poly)
     {
         shape = poly.shape;
@@ -60,9 +60,8 @@ public:
         vertex[2] = poly.vertex[2];
         vertex[3] = poly.vertex[3];
     }
-*/
-    coordd texture_coord(coord3 pos);
-    coord3 transform(coord3 dir);
+
+    coord3 transform(coord3 dir) const;
     polygon &operator-=(const coord3 &c)
     {
         for (coord3 &v : vertex)
@@ -76,12 +75,9 @@ class screen
 {
 public:
     char ch = ' ';
-//    polygon *poly;
-//    coordd texture;
     double distance;
-//    color
+    //    color
 };
 
 void make_poly(std::vector<polygon> &polygons, char** map, int map_x, int map_y);
-void screen_assign(const coord3 cam_pos, const spher_coord cam_dir, std::vector<polygon> polygons, screen (*scr)[SCR_LENGTH]);
-
+void screen_assign(const coord3 &cam_pos, const spher_coord &cam_dir, const vector<polygon> &polygons, screen scr[][SCR_LENGTH]);
